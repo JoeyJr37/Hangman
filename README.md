@@ -19,4 +19,29 @@ Now implement the functionality where, at the start of any turn, instead of maki
 
 When the program first loads, add in an option that allows you to open one of your saved games, which should jump you exactly back to where you were when you saved. Play on!
 
-<b>Test </b>
+Problem Solving:
+1. Plan: Does the program have a user interface? 
+    What will it look lke? What functionality will the interface have?
+
+    -- This will be a command line application, but the user should be able to see: 
+        1) letters guessed
+            a) correct letters should appear in their appropriate place in the word
+            b) incorrect letters should be displayed also 
+        2) turns remainining, 
+        3) an option to save the game should be present
+
+    What inputs will your program have? Will the user enter data or will you get input from somewhere else?
+
+    -- Inputs will come both from a file saved in the 'Hangman' root directory as well as from the user
+
+    -- Desired outputs:
+        1) a randomly selected word from the dictionary file
+        2) after receiving each user guess, the program should determine whether or not the letter is included in the randomly selected word
+        3) the program should display the letter either in its correct position in the word or under the "incorrect" category
+        4) the player's turn count should decrease by 1
+        5) the program should determine if the word has been guessed or not
+        6) the program should present the option to save the progress of the game
+        7) the program should be able to load a saved game
+
+    Give your inputs, what are the steps necessary to return the desired output?
+
