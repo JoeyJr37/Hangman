@@ -12,25 +12,32 @@ class Game
 
     def is_letter_in_random_word?(guess)
         if random_word.include?(guess)
+            # find all instances of the guessed letter in the random word
+            # find all the index numbers for where the letters are located in the random word
+            # replace the dashes in the player array at those same index numbers with the guessed letter
             player.player_word_array[random_word.index(guess)] = guess
+            puts "Great job! #{guess} is in the secret word!"
             p player.player_word_array
+            if random_word == player.player_word_array
+                puts "You win!"
+            else
+                obtain_new_guess
+            end
         else
             incorrect_guesses_array.push(guess)
-            p "Wrong! #{player.turns_left - 1} turns left! 
+            puts "Wrong! #{player.turns_left - 1} turns left! 
             Incorrect guesses: #{incorrect_guesses_array}
             #{player.player_word_array}"
+            player.decrease_turn_count
+            obtain_new_guess
         end
     end
 
-    # def game_over?
-    #     if random_word === player_word_array
-    #         true
-    #     elsif player.turns_left == 0
-    #         true
-    #     else
-    #         false
-    #     end
-    # end
+    def obtain_new_guess
+        puts "Please guess a letter."
+        guess = gets.chomp
+        is_letter_in_random_word?(guess)
+    end
 
     def save_the_game
         #code
@@ -43,8 +50,6 @@ class Game
     def run_game
         puts "The secret word has #{random_word.length} letters in it."
         p player.player_word_array
-        puts "What is your first guess?"
-        guess = gets.chomp
-        is_letter_in_random_word?(guess)
+        obtain_new_guess
     end
 end
