@@ -1,5 +1,6 @@
 require_relative './dictionary.rb'
 require_relative './user.rb'
+require 'date'
 
 class Game
     attr_accessor :player, :random_word, :incorrect_guesses_array
@@ -10,19 +11,21 @@ class Game
         @incorrect_guesses_array = []
     end
 
+    def game_over?
+        if random_word == player.player_word_array.join("")
+            puts "You win! The word was #{random_word}."
+        else
+            obtain_new_guess
+        end
+    end
+
     def is_letter_in_random_word?(guess)
         if random_word.include?(guess)
-            # find all instances of the guessed letter in the random word
-            # find all the index numbers for where the letters are located in the random word
-            # replace the dashes in the player array at those same index numbers with the guessed letter
-            player.player_word_array[random_word.index(guess)] = guess
+            random_word.split("").each_with_index do |letter, index|
+                player.player_word_array[index] = guess if letter == guess end
             puts "Great job! #{guess} is in the secret word!"
             p player.player_word_array
-            if random_word == player.player_word_array
-                puts "You win!"
-            else
-                obtain_new_guess
-            end
+            game_over?
         else
             incorrect_guesses_array.push(guess)
             puts "Wrong! #{player.turns_left - 1} turns left! 
@@ -34,22 +37,45 @@ class Game
     end
 
     def obtain_new_guess
-        puts "Please guess a letter."
-        guess = gets.chomp
-        is_letter_in_random_word?(guess)
+        puts "Would you like to save your game?"
+        answer = gets.chomp.downcase
+        if answer == 'yes'
+            save_the_game
+        else
+            puts "Please guess a letter."
+            guess = gets.chomp.downcase
+            is_letter_in_random_word?(guess)
+        end
     end
 
     def save_the_game
-        #code
+        Dir.mkdir("saved_games") unless Dir.exists? "saved_games"
+        filename = "saved_games/#{player.name} #{DateTime.now}"
+        gamelogs = [random_word, player.name, player.player_word_array, player.turns_left]
+        File.open(filename, 'w') do |file|
+            file.puts gamelogs
+        end
     end
 
     def load_a_saved_game
-        #code
+        puts "Welcome back!"
+
     end
 
     def run_game
-        puts "The secret word has #{random_word.length} letters in it."
-        p player.player_word_array
-        obtain_new_guess
+        puts "Would you like to load a saved game?"
+        answer = gets.chomp.downcase
+        if answer == 'yes'
+            load_a_saved_game
+        else
+            puts "Welcome to Hangman! Here are the rules: "
+                # some rules here
+            puts "What should I call you?"
+            name = gets.chomp
+            puts "Welcome #{name.capitalize}!"
+            puts "Selecting the secret word..."
+            puts "The secret word has #{random_word.length} letters in it."
+            p player.player_word_array
+            obtain_new_guess
     end
 end

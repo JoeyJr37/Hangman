@@ -1,5 +1,5 @@
 class User
-    attr_accessor :player_word_array, :turns_left
+    attr_accessor :name, :player_word_array, :turns_left
     def initialize(name, random_word)
         @name = name
         @turns_left = 8
