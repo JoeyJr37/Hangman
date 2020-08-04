@@ -1,9 +1,12 @@
 class User
-    attr_accessor :name, :player_word_array, :turns_left
+    attr_accessor :name, :player_word_array, :turns_left, :incorrect_guesses_array
+    attr_reader :unique_id
     def initialize(name, random_word)
         @name = name
-        @turns_left = 8
         @player_word_array = Array.new(random_word.length) {'-'}
+        @incorrect_guesses_array = []
+        @turns_left = 8
+        @unique_id = "#{name}#{rand(10000)}"
     end
 
     def decrease_turn_count
