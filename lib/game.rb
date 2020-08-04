@@ -6,15 +6,16 @@ require 'json'
 
 class Game
     include Functions
-    attr_accessor :player, :random_word, :incorrect_guesses_array, :player_word_array
+    attr_accessor :player, :name, :random_word, :incorrect_guesses_array, :player_word_array, :unique_id, :turns_left, :decrease_turn_count
 
-    def initialize(random_word, name, player_word_array, incorrect_guesses_array, unique_id, turns_left)
+    def initialize(random_word, name, player_word_array, incorrect_guesses_array, unique_id, turns_left, decrease_turn_count)
         @name = name
         @random_word = random_word
         @player_word_array = player_word_array
         @incorrect_guesses_array = incorrect_guesses_array
         @unique_id = unique_id
         @turns_left = turns_left
+        @decrease_turn_count = decrease_turn_count
     end
 
     def game_over?
@@ -37,7 +38,7 @@ class Game
             puts "Wrong! #{turns_left - 1} turns left! 
             Incorrect guesses: #{incorrect_guesses_array}
             #{player_word_array}"
-            player.decrease_turn_count
+            decrease_turn_count
             obtain_new_guess
         end
     end

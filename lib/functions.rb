@@ -1,5 +1,5 @@
 module Functions
-    def self.to_json(random_word, name, player_word_array, incorrect_guesses_array, unique_id, turns_left)
+    def self.to_json(random_word, name, player_word_array, incorrect_guesses_array, unique_id, turns_left, decrease_turn_count)
         JSON.dump ({
             :random_word => random_word,
             :name => name,
@@ -7,6 +7,7 @@ module Functions
             :incorrect_guesses_array => incorrect_guesses_array,
             :unique_id => unique_id,
             :turns_left => turns_left
+            :decrease_turn_count => decrease_turn_count
         })
     end
 
@@ -27,7 +28,7 @@ module Functions
     def self.save_the_game(player, random_word)
         Dir.mkdir("saved_games") unless Dir.exists? "saved_games"
         filename = "saved_games/#{player.unique_id}"
-        gamelogs = to_json(random_word, player.name, player.player_word_array, player.incorrect_guesses_array, player.unique_id, player.turns_left)
+        gamelogs = to_json(random_word, player.name, player.player_word_array, player.incorrect_guesses_array, player.unique_id, player.turns_left, player.decrease_turn_count)
         File.open(filename, 'w') do |file|
             file.puts gamelogs
         end
