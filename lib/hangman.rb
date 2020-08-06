@@ -15,10 +15,11 @@ class Hangman
         puts "Welcome #{name.capitalize}!"
         random_word = Dictionary.new.get_word
         player = User.new(name, random_word)
-        new_game = Game.new(random_word, player.name, player.player_word_array, player.incorrect_guesses_array, player.unique_id, player.turns_left, player.decrease_turn_count)
-        puts "Selecting the secret word..."
-        p player.player_word_array
-        new_game.obtain_new_guess
+        p player
+        # new_game = Game.new(random_word, player)
+        # puts "Selecting the secret word..."
+        # p player.player_word_array
+        # new_game.obtain_new_guess
     end
 
     def run_game

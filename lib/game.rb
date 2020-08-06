@@ -8,14 +8,15 @@ class Game
     include Functions
     attr_accessor :player, :name, :random_word, :incorrect_guesses_array, :player_word_array, :unique_id, :turns_left, :decrease_turn_count
 
-    def initialize(random_word, name, player_word_array, incorrect_guesses_array, unique_id, turns_left, decrease_turn_count)
-        @name = name
+    def initialize(random_word, player)
         @random_word = random_word
-        @player_word_array = player_word_array
-        @incorrect_guesses_array = incorrect_guesses_array
-        @unique_id = unique_id
-        @turns_left = turns_left
-        @decrease_turn_count = decrease_turn_count
+        @player = player
+        @name = player.name
+        @player_word_array = player.player_word_array
+        @incorrect_guesses_array = player.incorrect_guesses_array
+        @unique_id = player.unique_id
+        @turns_left = player.turns_left
+        @decrease_turn_count = player.decrease_turn_count
     end
 
     def game_over?
@@ -29,7 +30,7 @@ class Game
     def is_letter_in_random_word?(guess)
         if random_word.downcase.include?(guess)
             random_word.split("").each_with_index do |letter, index|
-                player_word_array[index] = guess if letter == guess end
+                player_word_array[index] = guess.downcase if letter == guess.downcase end
             puts "Great job! #{guess} is in the secret word!"
             p player_word_array
             game_over?
