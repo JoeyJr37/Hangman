@@ -6,10 +6,10 @@ require 'json'
 
 class Game
     include Functions
-    attr_accessor :player, :name, :random_word, :incorrect_guesses_array, :player_word_array, :unique_id, :turns_left, :decrease_turn_count
+    attr_accessor :player, :name, :random_word, :incorrect_guesses_array, :player_word_array, :unique_id, :turns_left, :decrease_turn_count, :random_word
 
-    def initialize(random_word, player)
-        @random_word = random_word
+    def initialize(player)
+        @random_word = player.random_word
         @player = player
         @name = player.name
         @player_word_array = player.player_word_array
@@ -28,11 +28,12 @@ class Game
     end
 
     def is_letter_in_random_word?(guess)
-        if random_word.downcase.include?(guess)
+        if random_word.include?(guess)
             random_word.split("").each_with_index do |letter, index|
                 player_word_array[index] = guess.downcase if letter == guess.downcase end
-            puts "Great job! #{guess} is in the secret word!"
-            p player_word_array
+            puts "Great job! #{guess} is in the secret word!
+            Incorrect guesses: #{incorrect_guesses_array}
+            #{player_word_array}"
             game_over?
         else
             incorrect_guesses_array.push(guess)
@@ -44,11 +45,17 @@ class Game
         end
     end
 
+    def print_saved_game_state
+        puts "You have #{turns_left} turns left. 
+        These are your incorrect guesses: #{incorrect_guesses_array}
+        and this is your current progress: #{player_word_array}."
+    end
+        
     def obtain_new_guess
         puts "Would you like to save your game?"
         answer = gets.chomp.downcase
         if answer == 'yes'
-            Functions.save_the_game(player, random_word)
+            Functions.save_the_game(player)
         else
             puts "Please guess a letter."
             guess = gets.chomp.downcase

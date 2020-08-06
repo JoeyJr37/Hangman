@@ -15,11 +15,10 @@ class Hangman
         puts "Welcome #{name.capitalize}!"
         random_word = Dictionary.new.get_word
         player = User.new(name, random_word)
-        p player
-        # new_game = Game.new(random_word, player)
-        # puts "Selecting the secret word..."
-        # p player.player_word_array
-        # new_game.obtain_new_guess
+        new_game = Game.new(player)
+        puts "Selecting the secret word..."
+        p player.player_word_array
+        new_game.obtain_new_guess
     end
 
     def run_game
@@ -28,7 +27,8 @@ class Hangman
         if answer == 'yes'
             puts "Please enter your unique ID: "
             answer = gets.chomp
-            saved_game = Functions.load_a_saved_game(answer)
+            saved_game = Game.new(Functions.load_a_saved_game(answer))
+            saved_game.print_saved_game_state
             saved_game.obtain_new_guess
         else
             new_game

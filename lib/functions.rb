@@ -1,30 +1,23 @@
 module Functions
-    def self.to_json(player, random_word)
-        JSON.dump ({
-            :player => player,
-            :random_word => random_word,
-        })
+    def self.to_Marshal(player)
+        Marshal.dump(player)
     end
 
-    def self.from_json(string)
-        saved_player = JSON.load string
-        p saved_player
-        #Game.new(saved_player)
+    def self.from_Marshal(player)
+        Marshal.load player
     end
 
     def self.load_a_saved_game(file)
         puts "Welcome back!"
         puts "Loading saved game..."
         gamelogs = File.read "./saved_games/#{file}"
-        saved_game = from_json(gamelogs)
-        #saved_game.obtain_new_guess
-        p saved_game
+        from_Marshal(gamelogs)
     end
 
-    def self.save_the_game(player, random_word)
+    def self.save_the_game(player)
         Dir.mkdir("saved_games") unless Dir.exists? "saved_games"
         filename = "saved_games/#{player.unique_id}"
-        gamelogs = to_json(player, random_word)
+        gamelogs = to_Marshal(player)
         File.open(filename, 'w') do |file|
             file.puts gamelogs
         end

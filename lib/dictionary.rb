@@ -8,7 +8,7 @@ class Dictionary
 
     def select_word(list_of_words)
         list_of_words_array = list_of_words.split(" ")
-        random_word = list_of_words_array.sample
+        random_word = list_of_words_array.sample.downcase
         confirm_word_is_correct_length(random_word, list_of_words)
     end
 
