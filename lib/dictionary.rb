@@ -14,13 +14,13 @@ class Dictionary
 
     def confirm_word_is_correct_length(random_word, list_of_words)
         if random_word.length < 5
-            p "#{random_word} is shorter than 5 characters"
+            "#{random_word} is shorter than 5 characters"
             select_word(list_of_words)
         elsif random_word.length > 12
-            p "#{random_word} is longer than 12 characters"
+            "#{random_word} is longer than 12 characters"
             select_word(list_of_words)
         else
-            p random_word
+            random_word
         end
     end
 
