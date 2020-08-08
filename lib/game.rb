@@ -6,7 +6,7 @@ require 'json'
 
 class Game
     include Functions
-    attr_accessor :player, :name, :random_word, :incorrect_guesses_array, :player_word_array, :unique_id, :turns_left, :decrease_turn_count, :random_word
+    attr_accessor :player, :name, :random_word, :incorrect_guesses_array, :player_word_array, :unique_id, :turns_left, :random_word
 
     def initialize(player)
         @random_word = player.random_word
@@ -16,12 +16,14 @@ class Game
         @incorrect_guesses_array = player.incorrect_guesses_array
         @unique_id = player.unique_id
         @turns_left = player.turns_left
-        @decrease_turn_count = player.decrease_turn_count
     end
 
     def game_over?
         if random_word == player_word_array.join("")
             puts "You win! The word was #{random_word}."
+        elsif
+            player.turns_left == 0
+            puts "The game is over. You lose! The secret word was #{random_word}."
         else
             obtain_new_guess
         end
@@ -37,11 +39,11 @@ class Game
             game_over?
         else
             incorrect_guesses_array.push(guess)
-            puts "Wrong! #{turns_left - 1} turns left! 
+            puts "Wrong! #{player.turns_left - 1} turns left! 
             Incorrect guesses: #{incorrect_guesses_array}
             #{player_word_array}"
-            decrease_turn_count
-            obtain_new_guess
+            player.decrease_turn_count
+            game_over?
         end
     end
 
